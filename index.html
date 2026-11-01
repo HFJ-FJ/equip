@@ -252,7 +252,7 @@ dialog { width: min(660px,94vw); max-height: 90vh; overflow: auto; color: var(--
             <h4>云端同步（GitHub 共享数据）</h4>
             <p class="notice">把全部数据存到 GitHub 仓库的 <code>db.json</code>，所有设备读同一份 → 多人实时共享，无需服务器。建议仓库设为<b>私有</b>。先在 GitHub 生成一个对该仓库有“内容读写”权限的令牌(PAT)，粘贴到下方保存即可；之后每次保存自动上传。</p>
             <div class="sync-fields">
-              <input id="ghRepo" value="HFJ-FJ/equip-data" aria-label="GitHub 仓库" placeholder="owner/repo">
+              <input id="ghRepo" value="HFJ-FJ/HFJ-FJ-equip-data" aria-label="GitHub 仓库" placeholder="owner/repo">
               <input id="ghToken" type="password" aria-label="GitHub 令牌" placeholder="粘贴 GitHub PAT 令牌">
               <button type="button" id="ghSaveTokenBtn">保存令牌</button>
               <button type="button" id="ghClearTokenBtn">清除</button>
@@ -386,7 +386,7 @@ function nowISO(){ return new Date().toISOString(); }
 const GH_TOKEN_KEY = 'qy_equip_gh_token';
 const GH_REPO_KEY = 'qy_equip_gh_repo';
 function ghToken(){ return localStorage.getItem(GH_TOKEN_KEY) || ''; }
-function ghRepo(){ const v = ($('ghRepo') ? $('ghRepo').value : '').trim(); return v || localStorage.getItem(GH_REPO_KEY) || 'HFJ-FJ/equip-data'; }
+function ghRepo(){ const v = ($('ghRepo') ? $('ghRepo').value : '').trim(); return v || localStorage.getItem(GH_REPO_KEY) || 'HFJ-FJ/HFJ-FJ-equip-data'; }
 function ghStatus(msg, cls){ const el = $('ghStatus'); if(el){ el.className = 'sync-status' + (cls ? ' '+cls : ''); el.textContent = msg; } }
 function ghB64(str){ const bytes = new TextEncoder().encode(str); let bin=''; bytes.forEach(b => bin += String.fromCharCode(b)); return btoa(bin); }
 function ghUnB64(b64){ const bin = atob((b64||'').replace(/\s/g,'')); const bytes = Uint8Array.from(bin, c => c.charCodeAt(0)); return new TextDecoder().decode(bytes); }
@@ -1411,7 +1411,7 @@ function bind(){
   $('exportGitBtn').addEventListener('click', exportGitRepo);
   $('importGitBtn').addEventListener('click', () => { const f = $('gitImportFile').files[0]; if(!f){ window.alert('请先选择 Git 仓库 zip 文件'); return; } importGitRepo(f); });
   $('gitRemoteBtn').addEventListener('click', pushGitRemote);
-  $('ghSaveTokenBtn').addEventListener('click', () => { const t = $('ghToken').value.trim(); if(!t){ ghStatus('请输入令牌。', 'err'); return; } localStorage.setItem(GH_TOKEN_KEY, t); localStorage.setItem(GH_REPO_KEY, ($('ghRepo').value||'HFJ-FJ/equip-data').trim()); ghStatus('令牌已保存（仅存于本浏览器）。可点“立即同步到云端”。', 'ok'); });
+  $('ghSaveTokenBtn').addEventListener('click', () => { const t = $('ghToken').value.trim(); if(!t){ ghStatus('请输入令牌。', 'err'); return; } localStorage.setItem(GH_TOKEN_KEY, t); localStorage.setItem(GH_REPO_KEY, ($('ghRepo').value||'HFJ-FJ/HFJ-FJ-equip-data').trim()); ghStatus('令牌已保存（仅存于本浏览器）。可点“立即同步到云端”。', 'ok'); });
   $('ghClearTokenBtn').addEventListener('click', () => { localStorage.removeItem(GH_TOKEN_KEY); ghStatus('已清除本地令牌。', ''); });
   $('ghPushBtn').addEventListener('click', () => ghPush());
   $('ghPullBtn').addEventListener('click', () => ghPull());
